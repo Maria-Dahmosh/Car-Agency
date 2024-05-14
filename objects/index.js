@@ -945,7 +945,23 @@ const CarPurchaseManager = {
       return "The customer does not have enough money";
     }
     // Subtract the total price including tax from customer's cash
-    CustomerManager.changeCustomerCash(customerId, 1.17 * carToPurchase.price);
+    CustomerManager.changeCustomerCash(customerId, 1.17 * carPrice);
+
+    const taxRate = 0.17;
+    const totalCost = carPrice * 1.17;
+
+    buyer.cash -= 1.17 * carPrice;
+    agencyWithCar.cash += 1.17 * carPrice;
+
+    totalTaxesPaid += carPrice * taxRate;
+    numberOfTransactions += 1;
+    sumOfAllTransactions += totalCost;
+
+    agencyFound.cars.splice(
+      agencyFound.cars.findIndex((car) => car.carNumber === carId),
+      1
+    );
+    customer.cars.push({ ...car, ownerId: customerId });
   },
 
   //   // Calculate and return the total revenue of the entire market.
